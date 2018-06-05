@@ -28,6 +28,7 @@ public class MainActivity extends DrawerActivity implements MainContract.View, A
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
     }
 
     private void init() {
