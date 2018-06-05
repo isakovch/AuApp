@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AuApp</string>
+    <string name="favourite_vacancies">Favourite vacancies</string>
+    <string name="exit">Exit</string>
+    <string name="all_kg_vacancies">All vacancies in Kyrgyzstan</string>
+    <string name="please_wait">Please wait...</string>
+</resources>
