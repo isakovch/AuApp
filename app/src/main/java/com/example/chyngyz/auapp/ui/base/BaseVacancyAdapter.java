@@ -18,13 +18,18 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class BaseVacancyAdapter extends ArrayAdapter<Vacancy> {
+public abstract class BaseVacancyAdapter<C> extends ArrayAdapter<Vacancy> {
 
-    public BaseVacancyAdapter(@NonNull Context context, ArrayList<Vacancy> vacancyList, ArrayList<String> favouriteList, ArrayList<String> viewedList) {
+    public BaseVacancyAdapter(@NonNull Context context,
+                              ArrayList<Vacancy> vacancyList,
+                              ArrayList<String> favouriteList,
+                              ArrayList<String> viewedList,
+                              C callback) {
+
         super(context, 0, vacancyList);
     }
 
-    protected abstract void onCheckBoxClicked(boolean isChecked, String vacancyId);
+    protected abstract void onCheckBoxClicked(boolean isChecked, Vacancy vacancy);
 
     @NonNull
     @Override
@@ -48,7 +53,7 @@ public abstract class BaseVacancyAdapter extends ArrayAdapter<Vacancy> {
             holder.mCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onCheckBoxClicked(holder.mCheckBox.isChecked(), item.getPid());
+                    onCheckBoxClicked(holder.mCheckBox.isChecked(), item);
                 }
             });
         }

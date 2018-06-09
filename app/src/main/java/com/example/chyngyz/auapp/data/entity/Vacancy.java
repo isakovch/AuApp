@@ -15,6 +15,8 @@ public class Vacancy implements Parcelable {
     private String date;
     private String body;
 
+    public Vacancy() {}
+
     public String getPid() {
         return pid;
     }

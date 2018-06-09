@@ -1,10 +1,13 @@
 package com.example.chyngyz.auapp.ui.main;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.chyngyz.auapp.config.AppConstants;
 import com.example.chyngyz.auapp.data.RetrofitService;
+import com.example.chyngyz.auapp.data.db.SQLiteManager;
 import com.example.chyngyz.auapp.data.entity.Vacancy;
+import com.example.chyngyz.auapp.utils.NetworkStatus;
 
 import java.util.ArrayList;
 
@@ -16,13 +19,20 @@ public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View mView;
     private RetrofitService mService;
+    private SQLiteManager mSQLiteManager;
 
-    MainPresenter(RetrofitService service) {
+    MainPresenter(RetrofitService service, SQLiteManager sqLiteManager) {
         this.mService = service;
+        this.mSQLiteManager = sqLiteManager;
     }
 
     @Override
-    public void getAllVacancies() {
+    public void getAllVacancies(Context context) {
+        if (!NetworkStatus.isNetworkAvailable(context)) {
+            mView.showAllVacancies(mSQLiteManager.getMainVacancyList());
+            return;
+        }
+
         mView.showLoadingIndicator();
         mService.getAllVacancies(AppConstants.API_LOGIN, AppConstants.FORM_GET_ALL_VACANCIES, 20, 1)
                 .enqueue(new Callback<ArrayList<Vacancy>>() {
@@ -30,6 +40,7 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onResponse(@NonNull Call<ArrayList<Vacancy>> call, @NonNull Response<ArrayList<Vacancy>> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             if (isViewAttached()) {
+                                save(response.body());
                                 mView.showAllVacancies(response.body());
                                 mView.hideLoadingIndicator();
                             }
@@ -49,6 +60,21 @@ public class MainPresenter implements MainContract.Presenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void saveOrDeleteVacancy(boolean isChecked, Vacancy vacancy) {
+        if (isChecked) {
+            mSQLiteManager.saveVacancy(vacancy);
+        } else {
+            mSQLiteManager.deleteVacancy(vacancy);
+        }
+    }
+
+
+    private void save(ArrayList<Vacancy> vacancyList) {
+        mSQLiteManager.deleteAllVacancies();
+        mSQLiteManager.saveVacancyList(vacancyList);
     }
 
     @Override

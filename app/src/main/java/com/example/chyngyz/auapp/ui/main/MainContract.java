@@ -1,5 +1,7 @@
 package com.example.chyngyz.auapp.ui.main;
 
+import android.content.Context;
+
 import com.example.chyngyz.auapp.data.entity.Vacancy;
 import com.example.chyngyz.auapp.ui.IProgressBar;
 import com.example.chyngyz.auapp.ui.Lifecycle;
@@ -15,6 +17,8 @@ public interface MainContract {
     }
 
     interface Presenter extends Lifecycle<View> {
-        void getAllVacancies();
+        void getAllVacancies(Context context);
+
+        void saveOrDeleteVacancy(boolean isChecked, Vacancy vacancy);
     }
 }

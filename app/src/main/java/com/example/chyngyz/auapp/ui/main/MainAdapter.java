@@ -5,23 +5,26 @@ import android.support.annotation.NonNull;
 
 import com.example.chyngyz.auapp.data.entity.Vacancy;
 import com.example.chyngyz.auapp.ui.base.BaseVacancyAdapter;
-import com.example.chyngyz.auapp.ui.base.BaseVacancyCallback;
 
 import java.util.ArrayList;
 
-public class MainAdapter extends BaseVacancyAdapter {
+public class MainAdapter extends BaseVacancyAdapter<MainAdapterCallback> {
 
-    public MainAdapter(@NonNull Context context, ArrayList<Vacancy> vacancyList, ArrayList<String> favouriteList, ArrayList<String> viewedList) {
-        super(context, vacancyList, favouriteList, viewedList);
+    private MainAdapterCallback mCallback;
+
+    MainAdapter(@NonNull Context context,
+                       ArrayList<Vacancy> vacancyList,
+                       ArrayList<String> favouriteList,
+                       ArrayList<String> viewedList,
+                       MainAdapterCallback callback) {
+
+        super(context, vacancyList, favouriteList, viewedList, callback);
+
+        this.mCallback = callback;
     }
 
     @Override
-    protected void onCheckBoxClicked(boolean isChecked, String vacancyId) {
-        /*TODO Save vacancies in main table */
-        if (isChecked) {
-             // save vacancy
-        } else {
-            // delete vacancy
-        }
+    protected void onCheckBoxClicked(boolean isChecked, Vacancy vacancy) {
+        mCallback.checkClicked(isChecked, vacancy);
     }
 }

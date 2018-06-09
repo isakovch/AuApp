@@ -16,12 +16,15 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class MainActivity extends DrawerActivity implements MainContract.View, AdapterView.OnItemClickListener {
+public class MainActivity extends DrawerActivity implements
+        MainAdapterCallback,
+        MainContract.View,
+        AdapterView.OnItemClickListener {
 
     @BindView(R.id.list_view)
     ListView mListView;
 
-    private MainPresenter mPresenter;
+    private MainContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +35,17 @@ public class MainActivity extends DrawerActivity implements MainContract.View, A
     }
 
     private void init() {
-        mPresenter = new MainPresenter(AuApp.get(this).getService());
+        mPresenter = new MainPresenter(
+                AuApp.get(this).getService(),
+                AuApp.get(this).getSQLiteManager());
+
         mPresenter.bind(this);
-        mPresenter.getAllVacancies();
+        mPresenter.getAllVacancies(this);
     }
 
     @Override
     public void showAllVacancies(ArrayList<Vacancy> vacancyList) {
-        mListView.setAdapter(new MainAdapter(this, vacancyList, new ArrayList<String>(), new ArrayList<String>()));
+        mListView.setAdapter(new MainAdapter(this, vacancyList, new ArrayList<String>(), new ArrayList<String>(), this));
         mListView.setOnItemClickListener(this);
     }
 
@@ -69,5 +75,10 @@ public class MainActivity extends DrawerActivity implements MainContract.View, A
         Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
         intent.putExtra("header", ((Vacancy) parent.getItemAtPosition(position)).getHeader());
         startActivity(intent);
+    }
+
+    @Override
+    public void checkClicked(boolean isChecked, Vacancy vacancy) {
+        mPresenter.saveOrDeleteVacancy(isChecked, vacancy);
     }
 }
