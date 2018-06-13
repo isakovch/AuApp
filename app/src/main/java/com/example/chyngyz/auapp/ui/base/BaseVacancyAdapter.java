@@ -14,6 +14,7 @@ import com.example.chyngyz.auapp.R;
 import com.example.chyngyz.auapp.data.entity.Vacancy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
 public abstract class BaseVacancyAdapter<C> extends ArrayAdapter<Vacancy> {
 
     public BaseVacancyAdapter(@NonNull Context context,
-                              ArrayList<Vacancy> vacancyList,
+                              List<Vacancy> vacancyList,
                               ArrayList<String> favouriteList,
                               ArrayList<String> viewedList,
                               C callback) {
@@ -50,12 +51,7 @@ public abstract class BaseVacancyAdapter<C> extends ArrayAdapter<Vacancy> {
             holder.mHeader.setText(item.getHeader());
             holder.mProfession.setText(item.getProfession());
 
-            holder.mCheckBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCheckBoxClicked(holder.mCheckBox.isChecked(), item);
-                }
-            });
+            holder.mCheckBox.setOnClickListener(v -> onCheckBoxClicked(holder.mCheckBox.isChecked(), item));
         }
 
         return convertView;

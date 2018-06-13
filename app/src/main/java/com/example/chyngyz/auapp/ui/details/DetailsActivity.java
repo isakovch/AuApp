@@ -12,6 +12,6 @@ public class DetailsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String header = getIntent().getStringExtra("header");
-        AndroidUtils.showToast(this, "DETAILS OPENED " + header);
+
     }
 }

@@ -1,35 +1,33 @@
 package com.example.chyngyz.auapp;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.example.chyngyz.auapp.data.NetworkBuilder;
-import com.example.chyngyz.auapp.data.RetrofitService;
-import com.example.chyngyz.auapp.data.db.SQLiteHelper;
-import com.example.chyngyz.auapp.data.db.SQLiteManager;
+import com.example.chyngyz.auapp.di.app.AppComponent;
+import com.example.chyngyz.auapp.di.app.AppModule;
+import com.example.chyngyz.auapp.di.app.DaggerAppComponent;
+import com.example.chyngyz.auapp.di.app.DbModule;
+import com.example.chyngyz.auapp.di.app.NetworkModule;
 
 public class AuApp extends Application {
 
-    private RetrofitService mService;
-    private SQLiteManager mSQLiteManager;
+    private static AppComponent sComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mService = NetworkBuilder.initRetrofit();
-
-        mSQLiteManager = new SQLiteHelper(this);
+        initDependency();
     }
 
-    public static AuApp get(Context context) {
-        return (AuApp) context.getApplicationContext();
+    private void initDependency() {
+        sComponent = DaggerAppComponent
+                .builder()
+                .networkModule(new NetworkModule())
+                .dbModule(new DbModule(this))
+                .appModule(new AppModule(this))
+                .build();
     }
 
-    public RetrofitService getService() {
-        return mService;
-    }
-
-    public SQLiteManager getSQLiteManager() {
-        return mSQLiteManager;
+    public static AppComponent getComponent() {
+        return sComponent;
     }
 }

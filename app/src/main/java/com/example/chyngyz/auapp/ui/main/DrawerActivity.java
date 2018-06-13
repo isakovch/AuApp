@@ -1,6 +1,5 @@
 package com.example.chyngyz.auapp.ui.main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.chyngyz.auapp.BuildConfig;
@@ -41,7 +40,7 @@ public abstract class DrawerActivity extends BaseActivity {
                 .addProfiles(
                         getProfileDrawerItem(
                                 R.drawable.logo,
-                                R.string.all_kg_vacancies,
+                                R.string.title_all_kg_vacancies,
                                 BuildConfig.VERSION_NAME)
                 )
                 .build();
@@ -54,8 +53,8 @@ public abstract class DrawerActivity extends BaseActivity {
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
-                        getDrawerItem(R.drawable.ic_star_black_24dp, R.string.favourite_vacancies, 1),
-                        getDrawerItem(R.drawable.ic_exit_to_app_black_24dp, R.string.exit, 2)
+                        getDrawerItem(R.drawable.ic_star_black_24dp, R.string.title_favourite_vacancies, 1),
+                        getDrawerItem(R.drawable.ic_exit_to_app_black_24dp, R.string.title_exit, 2)
                 )
                 .build();
     }
