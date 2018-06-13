@@ -5,7 +5,11 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Vacancy implements Parcelable {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Vacancy extends RealmObject implements Parcelable {
+    @PrimaryKey
     private String pid;
     private String header;
     private String profession;
@@ -15,7 +19,8 @@ public class Vacancy implements Parcelable {
     private String date;
     private String body;
 
-    public Vacancy() {}
+    public Vacancy() {
+    }
 
     public String getPid() {
         return pid;

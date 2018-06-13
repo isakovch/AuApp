@@ -9,49 +9,61 @@ import android.widget.ListView;
 import com.example.chyngyz.auapp.AuApp;
 import com.example.chyngyz.auapp.R;
 import com.example.chyngyz.auapp.data.entity.Vacancy;
+import com.example.chyngyz.auapp.di.main.MainModule;
 import com.example.chyngyz.auapp.ui.details.DetailsActivity;
 import com.example.chyngyz.auapp.utils.AndroidUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
 public class MainActivity extends DrawerActivity implements
-        MainAdapterCallback,
+        MainAdapter.MainAdapterCallback,
         MainContract.View,
         AdapterView.OnItemClickListener {
 
     @BindView(R.id.list_view)
     ListView mListView;
 
-    private MainContract.Presenter mPresenter;
+    @Inject
+    MainContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initDependency();
         init();
+    }
 
+    private void initDependency() {
+        AuApp.getComponent()
+                .include(new MainModule())
+                .inject(this);
     }
 
     private void init() {
-        mPresenter = new MainPresenter(
-                AuApp.get(this).getService(),
-                AuApp.get(this).getSQLiteManager());
-
         mPresenter.bind(this);
         mPresenter.getAllVacancies(this);
     }
 
     @Override
-    public void showAllVacancies(ArrayList<Vacancy> vacancyList) {
+    public void showAllVacancies(List<Vacancy> vacancyList) {
         mListView.setAdapter(new MainAdapter(this, vacancyList, new ArrayList<String>(), new ArrayList<String>(), this));
         mListView.setOnItemClickListener(this);
     }
 
     @Override
     public void showGetVacanciesError(String msg) {
-        AndroidUtils.showToast(this, msg);
+        AndroidUtils.showShortToast(this, msg);
+    }
+
+    @Override
+    public void showActionMessage(String msg) {
+        AndroidUtils.showShortToast(this, msg);
     }
 
     @Override

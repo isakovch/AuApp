@@ -10,7 +10,7 @@ public final class NetworkStatus {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (manager != null) {
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            return networkInfo.isAvailable() && networkInfo.isConnectedOrConnecting();
+            return networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnectedOrConnecting();
         }
 
         return false;
