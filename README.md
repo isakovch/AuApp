@@ -1,2 +1,2 @@
 # AuApp
-The app is about getting news about new jobs in Bishkek (Kyrgyzstan)
+The app is about getting news jobs in Bishkek (Kyrgyzstan) published from the hugest platforms of the country.
