@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.chyngyz.auapp.R;
 import com.example.chyngyz.auapp.data.entity.Vacancy;
+import com.example.chyngyz.auapp.ui.custom.TextViewRobotoLight;
+import com.example.chyngyz.auapp.ui.custom.TextViewRobotoMedium;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,15 @@ public abstract class BaseVacancyAdapter<C> extends ArrayAdapter<Vacancy> {
         if (null != item) {
             holder.mHeader.setText(item.getHeader());
             holder.mProfession.setText(item.getProfession());
+            holder.mTime.setText(item.getDate());
 
+            holder.mSalary.setText(item.getSalary().trim().isEmpty() ?
+                    parent.getContext().getString(R.string.info_individual_salary) :
+                    item.getSalary());
+
+            /*TODO Implement correct behavior of the checkbox when list is scrolled
+             *  Add animation for checkbox state change
+             * */
             holder.mCheckBox.setOnClickListener(v -> onCheckBoxClicked(holder.mCheckBox.isChecked(), item));
         }
 
@@ -59,9 +69,13 @@ public abstract class BaseVacancyAdapter<C> extends ArrayAdapter<Vacancy> {
 
     static class ViewHolder {
         @BindView(R.id.profession)
-        TextView mProfession;
+        TextViewRobotoMedium mProfession;
         @BindView(R.id.header)
-        TextView mHeader;
+        TextViewRobotoLight mHeader;
+        @BindView(R.id.time)
+        TextViewRobotoLight mTime;
+        @BindView(R.id.salary)
+        TextViewRobotoLight mSalary;
         @BindView(R.id.checkbox)
         CheckBox mCheckBox;
 

@@ -2,6 +2,8 @@ package com.example.chyngyz.auapp.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,6 +12,8 @@ import com.example.chyngyz.auapp.AuApp;
 import com.example.chyngyz.auapp.R;
 import com.example.chyngyz.auapp.data.entity.Vacancy;
 import com.example.chyngyz.auapp.di.main.MainModule;
+import com.example.chyngyz.auapp.ui.BaseFragment;
+import com.example.chyngyz.auapp.ui.container.DrawerActivity;
 import com.example.chyngyz.auapp.ui.details.DetailsActivity;
 import com.example.chyngyz.auapp.utils.AndroidUtils;
 
@@ -20,7 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class MainActivity extends DrawerActivity implements
+public class MainFragment extends BaseFragment implements
         MainAdapter.MainAdapterCallback,
         MainContract.View,
         AdapterView.OnItemClickListener {
@@ -32,11 +36,17 @@ public class MainActivity extends DrawerActivity implements
     MainContract.Presenter mPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         initDependency();
         init();
+
+        setRetainInstance(true);
+    }
+
+    @Override
+    protected int getViewLayout() {
+        return R.layout.fragment_main;
     }
 
     private void initDependency() {
@@ -47,28 +57,39 @@ public class MainActivity extends DrawerActivity implements
 
     private void init() {
         mPresenter.bind(this);
-        mPresenter.getAllVacancies(this);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.getAllVacancies(getCheckedActivity());
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
     public void showAllVacancies(List<Vacancy> vacancyList) {
-        mListView.setAdapter(new MainAdapter(this, vacancyList, new ArrayList<String>(), new ArrayList<String>(), this));
+        mListView.setAdapter(new MainAdapter(getCheckedActivity(), vacancyList, new ArrayList<String>(), new ArrayList<String>(), this));
         mListView.setOnItemClickListener(this);
     }
 
     @Override
     public void showGetVacanciesError(String msg) {
-        AndroidUtils.showShortToast(this, msg);
+        AndroidUtils.showShortToast(getCheckedActivity(), msg);
     }
 
     @Override
     public void showActionMessage(String msg) {
-        AndroidUtils.showShortToast(this, msg);
+        AndroidUtils.showShortToast(getCheckedActivity(), msg);
     }
 
     @Override
     public void showLoadingIndicator() {
-        showProgressBar(null);
+        showProgressBar();
     }
 
     @Override
@@ -77,15 +98,14 @@ public class MainActivity extends DrawerActivity implements
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         mPresenter.unbind();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-        intent.putExtra("header", ((Vacancy) parent.getItemAtPosition(position)).getHeader());
+        Intent intent = new Intent(getCheckedActivity(), DetailsActivity.class);
         startActivity(intent);
     }
 

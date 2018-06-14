@@ -4,10 +4,15 @@
     <string name="title_all_kg_vacancies">All vacancies in Kyrgyzstan</string>
     <string name="title_exit">Exit</string>
     <string name="title_favourite_vacancies">Favourite vacancies</string>
+    <string name="title_new_vacancies">New vacancies</string>
+    <string name="title_profession">Profession</string>
+    <string name="title_vacancies">Vacancies</string>
 
     <string name="action_please_wait">Please wait…</string>
     <string name="action_vacancy_added">Vacancy successfully added</string>
     <string name="action_vacancy_deleted">Vacancy deleted</string>
 
     <string name="msg_no_internet_connection">No internet connection</string>
+
+    <string name="info_individual_salary">Договорная</string>
 </resources>

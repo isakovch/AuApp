@@ -29,6 +29,7 @@ android {
         sourceCompatibility versions.java
         targetCompatibility versions.java
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 
@@ -40,7 +41,7 @@ dependencies {
     implementation libs.appCompat
     implementation libs.design
     implementation libs.annotation
-    implementation libs.design
+    implementation libs.cardView
     implementation libs.constraint
 
     implementation libs.dagger

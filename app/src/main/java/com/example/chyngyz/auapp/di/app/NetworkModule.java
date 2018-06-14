@@ -1,7 +1,5 @@
 package com.example.chyngyz.auapp.di.app;
 
-import android.preference.PreferenceManager;
-
 import com.example.chyngyz.auapp.data.network.HttpClientBuilder;
 import com.example.chyngyz.auapp.data.network.NetworkBuilder;
 import com.example.chyngyz.auapp.data.network.RetrofitService;

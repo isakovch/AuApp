@@ -1,5 +1,7 @@
 package com.example.chyngyz.auapp.di.app;
 
+import com.example.chyngyz.auapp.di.favourite.FavouriteComponent;
+import com.example.chyngyz.auapp.di.favourite.FavouriteModule;
 import com.example.chyngyz.auapp.di.main.MainComponent;
 import com.example.chyngyz.auapp.di.main.MainModule;
 
@@ -12,6 +14,8 @@ import dagger.Component;
 public interface AppComponent {
 
     MainComponent include(MainModule module);
+
+    FavouriteComponent include(FavouriteModule module);
 
 }
 

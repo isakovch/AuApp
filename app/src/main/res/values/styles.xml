@@ -22,4 +22,11 @@
         </item>
     </style>
 
+    <style name="VacancyHeaderTheme">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>
